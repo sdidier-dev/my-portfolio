@@ -113,7 +113,7 @@ card3 = dmc.Card(
     style={"width": 350},
 )
 
-project_content = [
+all_cards = [
     dmc.Header(
         height=80,
         children=[dmc.Text("Data Analysis and AI Projects",
@@ -134,16 +134,36 @@ project_content = [
     )
 ]
 
-contact_div = html.Div([
-    dcc.Markdown('# Adam Schroeder', className='mt-2'),
-    dcc.Markdown('### Sales Associate', className='mb-5'),
-    dcc.Markdown('Barcelona, Spain 08010'),
-    dcc.Markdown('212-123-4567'),
-    dcc.Markdown('adam@myemail.com'),
-    dcc.Markdown(
-        '[LinkedIn Profile](https://www.linkedin.com/in/adam-schroeder-17b5a819/)',
-        link_target='_blank'),
-])
+reference_card = html.Div([
+    dmc.Card(
+        children=[
+            dmc.Text("Marge Simpson", weight=500, size='xl'),
+            dmc.Text(
+                "Pretzel business Owner",
+                size="md",
+                mb="xs",
+            ),
+            dmc.Text(
+                "when a man's biggest dreams include seconds on dessert, occasional snuggling and sleeping in til noon on weekends, no one man can destroy them.",
+                size="sm",
+                color="dimmed",
+            ),
+        ],
+        withBorder=True,
+        shadow="sm",
+        radius="md",
+        style={"width": 350})
+    ],
+    style={"paddingTop": 40}
+)
+
+resume_div = html.Div([
+    html.Iframe(src="https://drive.google.com/file/d/15vnaw90FhL21SZypgzzAdY24HxJQMujt/preview",
+                width="800", height="480")
+    ],
+    style={"paddingTop": 40}
+)
+
 
 app = Dash()
 server = app.server
@@ -156,19 +176,20 @@ app.layout = dmc.MantineProvider(
             dmc.TabsList(
                 [
                     dmc.Tab("Projects", value="projects"),
-                    dmc.Tab("About", value="about"),
-                    dmc.Tab("Contact", value="contact"),
+                    dmc.Tab("Resumé", value="resume"),
+                    dmc.Tab("References", value="references"),
                 ], style={"paddingRight": 50, "paddingTop": 15}
             ),
-            dmc.TabsPanel(children=project_content, value="projects", pb="xs"),
-            dmc.TabsPanel("Messages tab content", value="about", pb="xs"),
-            dmc.TabsPanel(contact_div, value="contact", pb="xs"),
+            dmc.TabsPanel(children=all_cards, value="projects", pb="xs"),
+            dmc.TabsPanel(resume_div, value="resume", pb="xs"),
+            dmc.TabsPanel(reference_card, value="references", pb="xs"),
         ],
         value="projects",
         orientation='vertical',
         variant='pills',
     )
 ])
+
 
 if __name__=='__main__':
     app.run(debug=True)
